@@ -1,4 +1,5 @@
 import discord
+from dotenv import load_dotenv
 import asyncio
 from discord import app_commands
 from discord.ext import commands
@@ -7,13 +8,15 @@ from datetime import datetime
 import random
 import os
 
+load_dotenv
+
 intents = discord.Intents.all()
 intents.members = True
 
 client = commands.Bot(command_prefix = "m!", intents = intents, case_insensitive = True)
 client.remove_command("help")
 
-TOKEN = "MTE0MDc0Nzk2OTQzNjU4MTkxOA.G97dAd.O7iOHQz6nTwZxkG6skjo3XQDDlYEJdEAiaJ_-Q"
+TOKEN = os.getenv("secret_token")
 
 tz = timezone('EST')
 datetime.now(tz)

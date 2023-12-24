@@ -1,5 +1,4 @@
 import discord
-import pyshorteners
 from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
@@ -30,8 +29,6 @@ responses = ["It is certain.",
 
 tz = timezone('EST')
 datetime.now(tz)
-
-urlShortener = pyshorteners.Shortener()
 
 class Fun(commands.Cog):
     def __init__(self,client):
