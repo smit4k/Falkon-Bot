@@ -8,7 +8,7 @@ from datetime import datetime
 import random
 import os
 
-load_dotenv
+load_dotenv()
 
 intents = discord.Intents.all()
 intents.members = True
