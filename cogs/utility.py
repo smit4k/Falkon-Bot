@@ -1,5 +1,6 @@
 import discord
 import pyshorteners
+from translate import Translator
 import qrcode
 import io
 from discord.ext import commands
@@ -49,6 +50,15 @@ class Utility(commands.Cog):
         usEmbed.add_field(name = "**Your expanded link is:**", value = urlShortener.dagd.expand(link), inline = False)
         usEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = usEmbed)
+
+    @commands.command()
+    async def translate(self, ctx, to_language:str, *, text):
+        translator = Translator(to_lang=to_language)
+        translation=translator.translate(text)
+        trEmbed = discord.Embed(color = 0x6B31A5, timestamp = datetime.now())
+        trEmbed.add_field(name = f"Translated to {to_language.upper()}", value = translation,inline = False)
+        trEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = trEmbed)
 
 async def setup(client):
     await client.add_cog(Utility(client))
