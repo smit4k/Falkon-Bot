@@ -1,4 +1,5 @@
 import discord
+import requests
 from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
@@ -55,6 +56,20 @@ class Fun(commands.Cog):
         _8ballEmbed.add_field(name = "**Answer:**", value = random.choice(responses), inline = False)
         _8ballEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = _8ballEmbed)
+
+    @commands.command()
+    async def joke(self, ctx):
+        try:
+            joke = await self.get_Joke()
+            await ctx.send(joke)
+        except Exception as e:
+            await ctx.send("Error fetching joke, please try again later")
+    
+    async def get_Joke(self):
+        response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw&type=single")
+        data = response.json()
+        return data["joke"]
+
 
 async def setup(client):
     await client.add_cog(Fun(client))
