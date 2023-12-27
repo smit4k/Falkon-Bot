@@ -1,4 +1,5 @@
 import discord
+import os
 import requests
 from discord.ext import commands
 from datetime import datetime
@@ -64,6 +65,23 @@ class Fun(commands.Cog):
             await ctx.send(joke)
         except Exception as e:
             await ctx.send("Error fetching joke, please try again later")
+
+    @commands.command(aliases=["fortunecookie"])
+    async def fortune(self, ctx):
+        file_path = "fortunes.txt"  # Replace with the actual path to your file
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                lines = file.read().splitlines()
+                if lines:
+                    random_line = random.choice(lines)
+                    await ctx.send(random_line)
+                else:
+                    await ctx.send("The file is empty.")
+        except FileNotFoundError:
+            await ctx.send("File not found.")
+        except Exception as e:
+            await ctx.send(f"An error occurred: {e}")
+
     
     async def get_Joke(self):
         response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw&type=single")
