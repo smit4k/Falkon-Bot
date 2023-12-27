@@ -82,11 +82,24 @@ class Fun(commands.Cog):
         except Exception as e:
             await ctx.send(f"An error occurred: {e}")
 
+    @commands.command()
+    async def meme(self, ctx):
+        try:
+            meme = await self.get_Meme()
+            await ctx.send(meme)
+        except Exception as e:
+            await ctx.send("Error fetching meme, please try again later.")
+
     
     async def get_Joke(self):
         response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw&type=single")
         data = response.json()
         return data["joke"]
+    
+    async def get_Meme(self):
+        response = requests.get("https://meme-api.com/gimme")
+        data = response.json()
+        return data["preview"][3]
 
 
 async def setup(client):
