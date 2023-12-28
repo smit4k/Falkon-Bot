@@ -14,7 +14,6 @@ intents = discord.Intents.all()
 intents.members = True
 
 client = commands.Bot(command_prefix = "m!", intents = intents, case_insensitive = True)
-client.remove_command("help")
 
 TOKEN = os.getenv("secret_token")
 
@@ -38,15 +37,6 @@ async def userinfo(ctx, member : discord.Member):
   userInfoEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
   await ctx.send(embed = userInfoEmbed)
 
-@client.command()
-async def help(ctx):
-  helpEmbed = discord.Embed(title = "Meteor Commands", color = 0x6B31A5, timestamp = datetime.now())
-  helpEmbed.add_field(name = "**Fun Commands:**", value = "```8Ball``` Gives you a random outcome when you give it a question\n  ```flip``` Flips a coin and gives you either heads, or tails.\n  ```roll``` Rolls a die and gives you an random outcome of 1 - 6", inline = True)
-  helpEmbed.add_field(name = "**Utility Commands:**", value = "```userinfo``` Gives you information about the user mentioned.\n  ```ping``` Gives you the current latency of the bot", inline = True)
-  helpEmbed.add_field(name = "**Prefix:**", value = "The prefix for meteor bot is m!", inline = False)
-  helpEmbed.add_field(name = "**Credits:**", value = "All coding, artwork and work was done by @sm.it (smit#2047)", inline = False)
-  helpEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
-  await ctx.send(embed = helpEmbed)
 
 @client.event
 async def on_ready():
