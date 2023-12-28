@@ -1,5 +1,6 @@
 import discord
 import pyshorteners
+import requests
 from translate import Translator
 import qrcode
 import io
@@ -59,6 +60,26 @@ class Utility(commands.Cog):
         trEmbed.add_field(name = f"Translated to {to_language.upper()}", value = translation,inline = False)
         trEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = trEmbed)
+
+    @commands.command()
+    async def iplookup(self, ctx, *, ip):
+        lookup = await self.get_Ip(ip)
+
+        ipEmbed = discord.Embed(title = f"IP Lookup for {ip}", color = 0x6B31A5, timestamp = datetime.now())
+        ipEmbed.add_field(name = "", value = lookup, inline = False)
+        ipEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = ipEmbed)
+
+    async def get_Ip(self,ip):
+        response = requests.get(f"http://ip-api.com/json/{ip}")
+        data = response.json()
+        country = data["country"]
+        region = data["region"]
+        city = data["city"]
+        lat = data["lat"]
+        lon = data["lon"]
+        return f"**Country:** {country}\n**Region:** {region}\n**City:** {city}\n**Latitude:** {lat}\n**Longitude:** {lon}"
+
 
 async def setup(client):
     await client.add_cog(Utility(client))
