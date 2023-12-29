@@ -1,3 +1,6 @@
 # Meteor Bot
-## What is it?
-I'm working on MeteorBot as a project, It's meant to be a general purpose utility bot.
+
+## Purpose
+Meteor is a general purpose Discord utility bot written in Python
+## About contributions
+Contributing isn't welcome. This is a personal project, you may enjoy the freedom of this open-source bot.
