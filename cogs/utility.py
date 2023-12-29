@@ -70,6 +70,15 @@ class Utility(commands.Cog):
         ipEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = ipEmbed)
 
+    @commands.command()
+    async def exchangerate(self, ctx, fromC, *, toC):
+        exchange = await self.get_ExchangeRate(fromC,toC)
+
+        exEmbed = discord.Embed(title = f"Exchange Rate", color = 0x6B31A5, timestamp = datetime.now())
+        exEmbed.add_field(name = f"{fromC.upper()} ⇨ {toC.upper()}", value = exchange, inline = False)
+        exEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = exEmbed)
+
     async def get_Ip(self,ip):
         response = requests.get(f"http://ip-api.com/json/{ip}")
         data = response.json()
@@ -79,6 +88,12 @@ class Utility(commands.Cog):
         lat = data["lat"]
         lon = data["lon"]
         return f"**Country:** {country}\n**Region:** {region}\n**City:** {city}\n**Latitude:** {lat}\n**Longitude:** {lon}"
+    
+    async def get_ExchangeRate(self, fromCurrency, toCurrency):
+        response = requests.get(f"https://open.er-api.com/v6/latest/{fromCurrency.upper()}")
+        data = response.json()
+        exchangedValue = data["rates"][toCurrency.upper()]
+        return f"1 **{fromCurrency.upper()}** is {(round(exchangedValue*100))/100} **{toCurrency.upper()}**"
 
 
 async def setup(client):
