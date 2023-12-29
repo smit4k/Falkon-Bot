@@ -25,7 +25,9 @@ class Crypto(commands.Cog):
         response = requests.get(f"https://api.blockchain.com/v3/exchange/tickers/{cryptocurrency.upper()}-USD")
         data = response.json()
         price = data["price_24h"]
-        return f"**Price:** ${price}"
+        lastTradePrice = data["last_trade_price"]
+        return f"**Price:** ${price}\n**Last Trade Price:** ${lastTradePrice}"
+    
     
 
 async def setup(client):
