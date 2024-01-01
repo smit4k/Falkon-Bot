@@ -25,9 +25,11 @@ class Weather(commands.Cog):
     @commands.command()
     async def weather(self, ctx, *, query):
         weather = await self.get_Current_Weather(query)
+        icon = await self.get_Condition_Icon(query)
 
         weEmbed = discord.Embed(title = f"Current Weather for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
         weEmbed.add_field(name = "", value = weather, inline = False)
+        weEmbed.set_thumbnail(url = icon)
         weEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = weEmbed)
 
@@ -40,6 +42,14 @@ class Weather(commands.Cog):
         temp = data["current"]["temp_f"]
         feelsLike = data["current"]["feelslike_f"]
         return f"**Temperature:** {temp} °F\n**Feels Like:** {feelsLike} °F\n**Condition:** {condition}"
+    
+    async def get_Condition_Icon(self, q):
+        response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&key={KEY}")
+        
+        data = response.json()
+        relativeIcon = data["current"]["condition"]["icon"]
+        icon = f"https:{relativeIcon}"
+        return icon
 
 
 async def setup(client):
