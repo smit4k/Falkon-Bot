@@ -33,6 +33,14 @@ class Weather(commands.Cog):
         weEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = weEmbed)
 
+    @commands.command()
+    async def aqi(self, ctx, *, query):
+        currentAQI = await self.get_Current_AQI(query)
+        aqiEmbed = discord.Embed(title = f"Current Air Quality for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
+        aqiEmbed.add_field(name = "", value = currentAQI, inline = False)
+        aqiEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = aqiEmbed)
+
 
     async def get_Current_Weather(self, q):
         response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&key={KEY}")
@@ -50,6 +58,30 @@ class Weather(commands.Cog):
         relativeIcon = data["current"]["condition"]["icon"]
         icon = f"https:{relativeIcon}"
         return icon
+
+    async def get_Current_AQI(self, q):
+        response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&aqi=yes&key={KEY}")
+
+        data = response.json()
+        aqi = data["current"]["air_quality"]["pm2_5"]
+        epaIndex = data["current"]["air_quality"]["us-epa-index"]
+
+        if epaIndex == 1:
+            epaDescription = "Good"
+        elif epaIndex == 2:
+            epaDescription =  "Moderate"
+        elif epaIndex == 3:
+            epaDescription = "Unhealthy for Sensitive Groups"
+        elif epaIndex == 4:
+            epaDescription = "Unhealthy"
+        elif epaIndex == 5:
+            epaDescription = "Very Unhealthy"
+        elif epaIndex == 6:
+            epaDescription ="Hazardous"
+        else:
+            epaDescription = "Unknown"
+        
+        return f"**AQI:** {aqi}\n**EPA Index:** {epaIndex} *({epaDescription})*"
 
 
 async def setup(client):
