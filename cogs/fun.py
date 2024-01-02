@@ -84,11 +84,13 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def meme(self, ctx):
-        try:
-            meme = await self.get_Meme()
-            await ctx.send(meme)
-        except Exception as e:
-            await ctx.send("Error fetching meme, please try again later.")
+        meme = await self.get_Meme()
+        memeTitle = await self.get_Meme_Title()
+
+        meEmbed = discord.Embed(title = memeTitle, color = 0x6B31A5, timestamp = datetime.now())
+        meEmbed.set_image(url = meme)
+        meEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = meEmbed)
 
     
     async def get_Joke(self):
@@ -99,7 +101,14 @@ class Fun(commands.Cog):
     async def get_Meme(self):
         response = requests.get("https://meme-api.com/gimme")
         data = response.json()
-        return data["preview"][3]
+
+        return data["preview"][4]
+    
+    async def get_Meme_Title(self):
+        response = requests.get("https://meme-api.com/gimme")
+
+        data = response.json()
+        return data["title"]
 
 
 async def setup(client):
