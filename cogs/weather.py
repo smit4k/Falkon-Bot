@@ -25,10 +25,12 @@ class Weather(commands.Cog):
     @commands.command()
     async def weather(self, ctx, *, query):
         weather = await self.get_Current_Weather(query)
+        wind = await self.get_Current_Wind(query)
         icon = await self.get_Condition_Icon(query)
 
-        weEmbed = discord.Embed(title = f"Current Weather for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
-        weEmbed.add_field(name = "", value = weather, inline = False)
+        weEmbed = discord.Embed(title = f"Current Forecast for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
+        weEmbed.add_field(name = "Temperature", value = weather, inline = False)
+        weEmbed.add_field(name = "Wind", value = wind, inline = False)
         weEmbed.set_thumbnail(url = icon)
         weEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = weEmbed)
@@ -50,6 +52,14 @@ class Weather(commands.Cog):
         temp = data["current"]["temp_f"]
         feelsLike = data["current"]["feelslike_f"]
         return f"**Temperature:** {temp} °F\n**Feels Like:** {feelsLike} °F\n**Condition:** {condition}"
+    
+    async def get_Current_Wind(self, q):
+        response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&key={KEY}")
+        
+        data = response.json()
+        windSpeed = data["current"]["wind_mph"]
+        windDir = data["current"]["wind_dir"]
+        return f"**Wind Speed:** {windSpeed} mph\n**Wind Direction:** {windDir}"
     
     async def get_Condition_Icon(self, q):
         response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&key={KEY}")
