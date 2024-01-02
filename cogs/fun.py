@@ -92,6 +92,15 @@ class Fun(commands.Cog):
         meEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = meEmbed)
 
+    @commands.command()
+    async def bored(self, ctx):
+        bored = await self.get_Bored()
+
+        boEmbed = discord.Embed(title = "Do This if You're Bored!", color = 0x6B31A5, timestamp = datetime.now())
+        boEmbed.add_field(name = "", value = bored, inline = False)
+        boEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = boEmbed)
+
     
     async def get_Joke(self):
         response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw&type=single")
@@ -109,6 +118,15 @@ class Fun(commands.Cog):
 
         data = response.json()
         return data["title"]
+    
+    async def get_Bored(self):
+        response = requests.get("https://www.boredapi.com/api/activity")
+
+        data = response.json()
+        activity = data["activity"]
+        type = data["type"]
+        participants = data["participants"]
+        return f"**Activity:** {activity}\n**Type:** {type.capitalize()}\n**Participants:** {participants}"
 
 
 async def setup(client):
