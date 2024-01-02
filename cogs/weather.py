@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from discord.ext import commands
 from datetime import datetime
+from datetime import date
 from pytz import timezone
 import requests
 
@@ -13,6 +14,7 @@ KEY = os.getenv("weather_key")
 tz = timezone('EST')
 datetime.now(tz)
 
+today = date.today()
 
 class Weather(commands.Cog):
     def __init__(self,client):
@@ -36,8 +38,19 @@ class Weather(commands.Cog):
         await ctx.send(embed = weEmbed)
 
     @commands.command()
+    async def astro(self, ctx, *, query):
+        astro = await self.get_Current_Astro(query)
+
+        asEmbed = discord.Embed(title = f"Astronomy Forecast for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
+        asEmbed.add_field(name = "", value = astro, inline = False)
+        asEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = asEmbed)
+
+
+    @commands.command()
     async def aqi(self, ctx, *, query):
         currentAQI = await self.get_Current_AQI(query)
+
         aqiEmbed = discord.Embed(title = f"Current Air Quality for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
         aqiEmbed.add_field(name = "", value = currentAQI, inline = False)
         aqiEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
@@ -52,6 +65,18 @@ class Weather(commands.Cog):
         temp = data["current"]["temp_f"]
         feelsLike = data["current"]["feelslike_f"]
         return f"**Temperature:** {temp} °F\n**Feels Like:** {feelsLike} °F\n**Condition:** {condition}"
+    
+    async def get_Current_Astro(self, q):
+        response = requests.get(f"https://api.weatherapi.com/v1/astronomy.json?q={q}&dt={today}&key={KEY}")
+
+        data = response.json()
+        sunrise = data["astronomy"]["astro"]["sunrise"]
+        sunset = data["astronomy"]["astro"]["sunset"]
+        moonrise = data["astronomy"]["astro"]["moonrise"]
+        moonset = data["astronomy"]["astro"]["moonset"]
+        moonPhase = data["astronomy"]["astro"]["moon_phase"]
+
+        return f"**Sunrise:** {sunrise}\n**Sunset:** {sunset}\n**Moonrise:** {moonrise}\n**Moonset:** {moonset}\n**Moon Phase:** {moonPhase}"
     
     async def get_Current_Wind(self, q):
         response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&key={KEY}")
