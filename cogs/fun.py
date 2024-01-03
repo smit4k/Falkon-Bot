@@ -84,11 +84,22 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def meme(self, ctx):
-        try:
-            meme = await self.get_Meme()
-            await ctx.send(meme)
-        except Exception as e:
-            await ctx.send("Error fetching meme, please try again later.")
+        meme = await self.get_Meme()
+        memeTitle = await self.get_Meme_Title()
+
+        meEmbed = discord.Embed(title = memeTitle, color = 0x6B31A5, timestamp = datetime.now())
+        meEmbed.set_image(url = meme)
+        meEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = meEmbed)
+
+    @commands.command()
+    async def bored(self, ctx):
+        bored = await self.get_Bored()
+
+        boEmbed = discord.Embed(title = "Do This if You're Bored!", color = 0x6B31A5, timestamp = datetime.now())
+        boEmbed.add_field(name = "", value = bored, inline = False)
+        boEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(embed = boEmbed)
 
     
     async def get_Joke(self):
@@ -99,7 +110,23 @@ class Fun(commands.Cog):
     async def get_Meme(self):
         response = requests.get("https://meme-api.com/gimme")
         data = response.json()
-        return data["preview"][3]
+
+        return data["preview"][4]
+    
+    async def get_Meme_Title(self):
+        response = requests.get("https://meme-api.com/gimme")
+
+        data = response.json()
+        return data["title"]
+    
+    async def get_Bored(self):
+        response = requests.get("https://www.boredapi.com/api/activity")
+
+        data = response.json()
+        activity = data["activity"]
+        type = data["type"]
+        participants = data["participants"]
+        return f"**Activity:** {activity}\n**Type:** {type.capitalize()}\n**Participants:** {participants}"
 
 
 async def setup(client):
