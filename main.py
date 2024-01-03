@@ -28,11 +28,11 @@ async def ping(ctx):
   await ctx.send(embed = pingEmbed)
 
 @client.command()
-async def userinfo(ctx, member : discord.Member):
+async def whois(ctx, member : discord.Member):
   userInfoEmbed = discord.Embed(title = f'User info for {member.name}', description = member.mention, color = member.color, timestamp = datetime.now())
   userInfoEmbed.add_field(name = "**ID:**", value = member.id, inline = False)
   userInfoEmbed.add_field(name = "**Created At:**", value = member.created_at, inline = False)
-  userInfoEmbed.add_field(name = "**Top Role:**", value = member.top_role.mention, inline = False)
+  userInfoEmbed.add_field(name = "**Roles:**", value = f"{' '.join([role.mention for role in member.roles if role.name != '@everyone'])}", inline = False)
   userInfoEmbed.set_thumbnail(url = member.display_avatar)
   userInfoEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
   await ctx.send(embed = userInfoEmbed)
