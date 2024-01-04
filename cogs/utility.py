@@ -38,8 +38,8 @@ class Utility(commands.Cog):
             # Send the image
             await ctx.send(file=discord.File(fp=image_binary, filename="qrcode.png"))
 
-    @commands.command(aliases = ["linkshorten", "shortenlink", "shortlink"])
-    async def sl(self, ctx, *, link):
+    @commands.command(aliases = ["linkshorten", "sl", "shortlink"])
+    async def shortenlink(self, ctx, *, link):
         slEmbed = discord.Embed(color = 0x6B31A5, timestamp = datetime.now())
         slEmbed.add_field(name = "**Your shortened link is:**", value = urlShortener.dagd.short(link), inline = False)
         slEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
