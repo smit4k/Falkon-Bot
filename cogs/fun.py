@@ -68,7 +68,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["fortunecookie"])
     async def fortune(self, ctx):
-        file_path = "fortunes.txt"  # Replace with the actual path to your file
+        file_path = "assets/fortunes.txt"  # Replace with the actual path to your file
         try:
             with open(file_path, "r", encoding="utf-8") as file:
                 lines = file.read().splitlines()
