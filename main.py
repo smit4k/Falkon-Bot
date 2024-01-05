@@ -13,7 +13,7 @@ load_dotenv()
 intents = discord.Intents.all()
 intents.members = True
 
-client = commands.Bot(command_prefix = "m!", intents = intents, case_insensitive = True)
+client = commands.Bot(command_prefix = "f!", intents = intents, case_insensitive = True)
 
 TOKEN = os.getenv("secret_token")
 
