@@ -38,6 +38,20 @@ class Utility(commands.Cog):
             # Send the image
             await ctx.send(file=discord.File(fp=image_binary, filename="qrcode.png"))
 
+    @commands.command()
+    async def poll(self, ctx, question, *options):
+        poll_message = f"**{question}**\n\n"
+        for i, option in enumerate(options, start=1):
+            poll_message += f":regional_indicator_{chr(96+i)}:  {option}\n"
+
+        pollEmbed = discord.Embed(description = poll_message, color = 0x6B31A5)
+        pollEmbed.set_footer(text = f'Poll made by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        poll_msg = await ctx.send(embed = pollEmbed)
+
+        for i in range(len(options)):
+            emoji = chr(127462 + i)
+            await poll_msg.add_reaction(emoji)
+
     @commands.command(aliases = ["linkshorten", "sl", "shortlink"])
     async def shortenlink(self, ctx, *, link):
         slEmbed = discord.Embed(color = 0x6B31A5, timestamp = datetime.now())
