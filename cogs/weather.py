@@ -39,10 +39,12 @@ class Weather(commands.Cog):
 
     @commands.command()
     async def astro(self, ctx, *, query):
-        astro = await self.get_Current_Astro(query)
+        sunAstro = await self.get_Current_Sun(query)
+        moonAstro = await self.get_Current_Moon(query)
 
         asEmbed = discord.Embed(title = f"Astronomy Forecast for {query.capitalize()}", color = 0x6B31A5, timestamp = datetime.now())
-        asEmbed.add_field(name = "", value = astro, inline = False)
+        asEmbed.add_field(name = "Sun", value = sunAstro, inline = False)
+        asEmbed.add_field(name = "Moon", value = moonAstro, inline = False)
         asEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = asEmbed)
 
@@ -66,17 +68,24 @@ class Weather(commands.Cog):
         feelsLike = data["current"]["feelslike_f"]
         return f"**Temperature:** {temp} °F\n**Feels Like:** {feelsLike} °F\n**Condition:** {condition}"
     
-    async def get_Current_Astro(self, q):
+    async def get_Current_Sun(self, q):
         response = requests.get(f"https://api.weatherapi.com/v1/astronomy.json?q={q}&dt={today}&key={KEY}")
 
         data = response.json()
         sunrise = data["astronomy"]["astro"]["sunrise"]
         sunset = data["astronomy"]["astro"]["sunset"]
+
+        return f"**Sunrise:** {sunrise}\n**Sunset:** {sunset}"
+    
+    async def get_Current_Moon(self, q):
+        response = requests.get(f"https://api.weatherapi.com/v1/astronomy.json?q={q}&dt={today}&key={KEY}")
+
+        data = response.json()
         moonrise = data["astronomy"]["astro"]["moonrise"]
         moonset = data["astronomy"]["astro"]["moonset"]
         moonPhase = data["astronomy"]["astro"]["moon_phase"]
 
-        return f"**Sunrise:** {sunrise}\n**Sunset:** {sunset}\n**Moonrise:** {moonrise}\n**Moonset:** {moonset}\n**Moon Phase:** {moonPhase}"
+        return f"**Moonrise:** {moonrise}\n**Moonset:** {moonset}\n**Moon Phase:** {moonPhase}"
     
     async def get_Current_Wind(self, q):
         response = requests.get(f"https://api.weatherapi.com/v1/current.json?q={q}&key={KEY}")
