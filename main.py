@@ -1,6 +1,6 @@
 import discord
-from dotenv import load_dotenv
 import asyncio
+from dotenv import load_dotenv
 from discord import app_commands
 from discord.ext import commands
 from pytz import timezone
@@ -49,7 +49,9 @@ async def load():
       await client.load_extension(f'cogs.{filename[:-3]}')
 
 async def main():
-  await load()
-  await client.start(TOKEN)
+    await load()
+    await client.start(TOKEN)
 
-asyncio.run(main())
+# Ensure the event loop is running
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
