@@ -20,6 +20,7 @@ TOKEN = os.getenv("secret_token")
 tz = timezone('EST')
 datetime.now(tz)
 
+
 @client.command()
 async def ping(ctx):
   pingEmbed = discord.Embed(color = 0x6B31A5, timestamp = datetime.now())
@@ -37,6 +38,14 @@ async def whois(ctx, member : discord.Member):
   userInfoEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
   await ctx.send(embed = userInfoEmbed)
 
+@client.command()
+async def contributors(ctx):
+   contribEmbed = discord.Embed(title = "Contributors", color = 0x6B31A5)
+   contribEmbed.add_field(name = "Lead Developer:", value = "Discord Username: sm.it\nGithub: smit4k", inline = False)
+   contribEmbed.add_field(name = "Developers", value = "Placeholder", inline = False)
+   contribEmbed.add_field(name = "Testers", value = "Placeholder", inline = False)
+   contribEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+   await ctx.send(embed = contribEmbed)
 
 @client.event
 async def on_ready():
