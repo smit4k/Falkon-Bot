@@ -41,7 +41,7 @@ async def whois(ctx, member : discord.Member):
 @client.command()
 async def contributors(ctx):
    contribEmbed = discord.Embed(title = "Contributors", color = 0x6B31A5)
-   contribEmbed.add_field(name = "Lead Developer:", value = "Discord Username: sm.it\nGithub: smit4k", inline = False)
+   contribEmbed.add_field(name = "Lead Developer", value = "<:discord:1195074703837102121> sm.it\n<:githubwhite:1195075097678065705> smit4k\n<:twitch:1195073396283801651> smitfps", inline = False)
    contribEmbed.add_field(name = "Developers", value = "Placeholder", inline = False)
    contribEmbed.add_field(name = "Testers", value = "Placeholder", inline = False)
    contribEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
