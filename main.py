@@ -47,10 +47,17 @@ async def contributors(ctx):
    contribEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
    await ctx.send(embed = contribEmbed)
 
+@client.command()
+async def suggest(ctx):
+   suEmbed = discord.Embed(title = "Suggest a feature", color = 0x6B31A5)
+   suEmbed.add_field(name = "Google Forms", value = "https://forms.gle/kPo3Ma17BjtC6rW18")
+   suEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+   await ctx.send(embed = suEmbed)
+
 @client.event
 async def on_ready():
-    await client.change_presence(activity = discord.Streaming(name = "prefix is m!", url = "https://www.twitch.tv/smitfps"))
-    print("BOT IS ONLINE!")
+    await client.change_presence(activity = discord.Streaming(name = "prefix is f!", url = "https://www.twitch.tv/smitfps"))
+    print("BOT IS ONLINE!\nSigned in as " + client.user.name)
   
 async def load():
   for filename in os.listdir("./cogs"):
@@ -61,6 +68,6 @@ async def main():
     await load()
     await client.start(TOKEN)
 
-# Ensure the event loop is running
+
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
