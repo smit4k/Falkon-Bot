@@ -21,12 +21,17 @@ class News(commands.Cog):
     @commands.command()
     async def getnews(self, ctx):
         newsTitle = await self.get_BusinessUS_Title()
+        newsURL = await self.get_BusinessUS_URL()
         source = await self.get_BusinessUS_Source()
+        imgurl = await self.get_BusinessUS_Image()
         description = await self.get_BusinessUS_Description()
+        publishDate = await self.get_BusinessUS_PublishDate()
 
-        newsEmbed = discord.Embed(title = newsTitle, color = 0x6B31A5, timestamp = datetime.now())
+        newsEmbed = discord.Embed(title = newsTitle, url = newsURL, color = 0x6B31A5, timestamp = datetime.now())
         newsEmbed.add_field(name = "Source", value = source, inline = False)
+        newsEmbed.add_field(name = "Publish Date", value = publishDate, inline = False)
         newsEmbed.add_field(name = "Description", value = description, inline = False)
+        newsEmbed.set_image(url = imgurl)
         newsEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = newsEmbed)
 
@@ -47,7 +52,24 @@ class News(commands.Cog):
         data = response.json()
         description = data["articles"][0]["description"]
         return description
-
+    
+    async def get_BusinessUS_URL(self):
+        response = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey={newskey}")
+        data = response.json()
+        url = data["articles"][0]["url"]
+        return url
+    
+    async def get_BusinessUS_PublishDate(self):
+        response = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey={newskey}")
+        data = response.json()
+        publishedAt = data["articles"][0]["publishedAt"]
+        return publishedAt[0:10]
+    
+    async def get_BusinessUS_Image(self):
+        response = requests.get(f"https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey={newskey}")
+        data = response.json()
+        imgurl = data["articles"][0]["urlToImage"]
+        return imgurl
         
 
 async def setup(client):
