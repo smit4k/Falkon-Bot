@@ -5,6 +5,8 @@ from discord.ext import commands
 from datetime import datetime
 from pytz import timezone
 import random
+from PIL import Image
+import io
 
 coinFlip = ["Heads", "Tails"]
 diceRollList = ["1", "2", "3", "4", "5", "6"]
@@ -57,6 +59,32 @@ class Fun(commands.Cog):
         _8ballEmbed.add_field(name = "**Answer:**", value = random.choice(responses), inline = False)
         _8ballEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = _8ballEmbed)
+
+    @commands.command()
+    async def randomcolor(self, ctx):
+        red = random.randint(0,255)
+        green = random.randint(0,255) 
+        blue = random.randint(0,255)
+
+        hexcolor = f"#{red:02x}{green:02x}{blue:02x}"
+
+        width = 512
+        height = 512
+
+        image = Image.new("RGB", (width, height), (red, green, blue))
+        image_file = io.BytesIO()
+        image.save(image_file, "PNG")
+        image_file.seek(0)
+
+        file = discord.File(image_file, filename = "randomcolor.png")
+
+        randColorEmbed = discord.Embed(title = "Random Color", color = 0x6B31A5, timestamp = datetime.now())
+        randColorEmbed.add_field(name = "RGB", value = f"{red}, {green}, {blue}", inline = False)
+        randColorEmbed.add_field(name = "Hexadecimal", value = hexcolor, inline = False)
+        randColorEmbed.set_thumbnail(url = "attachment://randomcolor.png")
+        randColorEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
+        await ctx.send(file=file, embed=randColorEmbed)
+        
 
     @commands.command()
     async def joke(self, ctx):
