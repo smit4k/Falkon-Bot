@@ -60,7 +60,7 @@ class Fun(commands.Cog):
         _8ballEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = _8ballEmbed)
 
-    @commands.command()
+    @commands.command(aliases=["randcolors"])
     async def randomcolor(self, ctx):
         red = random.randint(0,255)
         green = random.randint(0,255)
@@ -68,8 +68,8 @@ class Fun(commands.Cog):
 
         hexcolor = f"#{red:02x}{green:02x}{blue:02x}"
 
-        width = 512
-        height = 512
+        width = 256
+        height = 256
 
         image = Image.new("RGB", (width, height), (red, green, blue))
         image_file = io.BytesIO()
