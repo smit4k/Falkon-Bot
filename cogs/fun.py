@@ -63,7 +63,7 @@ class Fun(commands.Cog):
     @commands.command()
     async def randomcolor(self, ctx):
         red = random.randint(0,255)
-        green = random.randint(0,255) 
+        green = random.randint(0,255)
         blue = random.randint(0,255)
 
         hexcolor = f"#{red:02x}{green:02x}{blue:02x}"
@@ -78,13 +78,13 @@ class Fun(commands.Cog):
 
         file = discord.File(image_file, filename = "randomcolor.png")
 
-        randColorEmbed = discord.Embed(title = "Random Color", color = 0x6B31A5, timestamp = datetime.now())
+        randColorEmbed = discord.Embed(title = "Random Color", color = 0x6B31A, timestamp = datetime.now())
         randColorEmbed.add_field(name = "RGB", value = f"{red}, {green}, {blue}", inline = False)
         randColorEmbed.add_field(name = "Hexadecimal", value = hexcolor, inline = False)
-        randColorEmbed.set_thumbnail(url = "attachment://randomcolor.png")
+        randColorEmbed.set_image(url = "attachment://randomcolor.png")
         randColorEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(file=file, embed=randColorEmbed)
-        
+
 
     @commands.command()
     async def joke(self, ctx):
@@ -129,24 +129,24 @@ class Fun(commands.Cog):
         boEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = boEmbed)
 
-    
+
     async def get_Joke(self):
         response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw&type=single")
         data = response.json()
         return data["joke"]
-    
+
     async def get_Meme(self):
         response = requests.get("https://meme-api.com/gimme")
         data = response.json()
 
         return data["preview"][4]
-    
+
     async def get_Meme_Title(self):
         response = requests.get("https://meme-api.com/gimme")
 
         data = response.json()
         return data["title"]
-    
+
     async def get_Bored(self):
         response = requests.get("https://www.boredapi.com/api/activity")
 
