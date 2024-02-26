@@ -21,7 +21,7 @@ class Quotes(commands.Cog):
         data = response.json()
         quote_text = data[0]["q"]
         author = data[0]["a"]
-        return f"*{quote_text}* - {author}"
+        return f'"*{quote_text}*" - {author}'
         
 
 
