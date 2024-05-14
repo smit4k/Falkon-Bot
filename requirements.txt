@@ -1,0 +1,8 @@
+discord.py==2.3.2
+Pillow==10.3.0
+pyshorteners==1.0.1
+python-dotenv==1.0.1
+pytz==2024.1
+qrcode==7.4.2
+Requests==2.31.0
+translate==3.6.1
