@@ -78,7 +78,7 @@ class Fun(commands.Cog):
 
         file = discord.File(image_file, filename = "randomcolor.png")
 
-        randColorEmbed = discord.Embed(title = "Random Color", color = 0x6B31A, timestamp = datetime.now())
+        randColorEmbed = discord.Embed(title = "Random Color", color = discord.Color.from_rgb(red,green,blue), timestamp = datetime.now())
         randColorEmbed.add_field(name = "RGB", value = f"{red}, {green}, {blue}", inline = False)
         randColorEmbed.add_field(name = "Hexadecimal", value = hexcolor, inline = False)
         randColorEmbed.set_image(url = "attachment://randomcolor.png")
