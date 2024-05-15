@@ -9,7 +9,6 @@ from PIL import Image
 import io
 
 coinFlip = ["Heads", "Tails"]
-diceRollList = ["1", "2", "3", "4", "5", "6"]
 responses = ["It is certain.",
 "It is decidedly so.",
 "Without a doubt.",
@@ -48,7 +47,7 @@ class Fun(commands.Cog):
     @commands.command(aliases = ["rolldice", "roll"])
     async def diceroll(self,ctx):
         diceRollEmbed = discord.Embed(color = 0x6B31A5, timestamp = datetime.now())
-        diceRollEmbed.add_field(name = "**You rolled a die and got:**", value = random.choice(diceRollList), inline = False)
+        diceRollEmbed.add_field(name = "**You rolled a die and got:**", value = random.randint(1,6), inline = False)
         diceRollEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = diceRollEmbed)
 
