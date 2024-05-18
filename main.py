@@ -62,6 +62,13 @@ async def suggest(ctx):
    suEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
    await ctx.send(embed = suEmbed)
 
+@client.command()
+async def bugs(ctx):
+    bugEmbed = discord.Embed(title = "Known bugs", color = 0x6B31A5)
+    bugEmbed.add_field(name = "Command not working", value = "stocks/stockprice")
+    bugEmbed.set_footer(text = f"Requested by {ctx.author.name}", icon_url = ctx.author.display_avatar)
+    await ctx.send(embed = bugEmbed)
+
 @client.event
 async def on_ready():
     await client.change_presence(activity = discord.Streaming(name = "prefix is f!", url = "https://www.twitch.tv/smitfps"))
