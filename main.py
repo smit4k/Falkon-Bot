@@ -25,7 +25,7 @@ datetime.now(tz)
 @client.command()
 async def ping(ctx):
   pingEmbed = discord.Embed(color = 0x6B31A5, timestamp = datetime.now())
-  pingEmbed.add_field(name = "**Ping:**", value = f'Latency: {round(client.latency * 1000)}ms', inline = False)
+  pingEmbed.add_field(name = "**Pong!**", value = f'Latency: {round(client.latency * 1000)}ms', inline = False)
   pingEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
   await ctx.send(embed = pingEmbed)
 
