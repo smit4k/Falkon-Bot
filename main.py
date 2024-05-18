@@ -49,6 +49,13 @@ async def contributors(ctx):
    await ctx.send(embed = contribEmbed)
 
 @client.command()
+async def source(ctx):
+    soEmbed = discord.Embed(title = "Falkon Source Code", color = 0x6B31A5)
+    soEmbed.add_field(name = "GitHub", value = "https://www.github.com/smit4k/Falkon-Bot", inline = False)
+    soEmbed.set_footer(text = f"Requested by {ctx.author.name}", icon_url = ctx.author.display_avatar)
+    await ctx.send(embed = soEmbed)
+
+@client.command()
 async def suggest(ctx):
    suEmbed = discord.Embed(title = "Suggest a feature", color = 0x6B31A5)
    suEmbed.add_field(name = "Google Forms", value = "https://forms.gle/kPo3Ma17BjtC6rW18")
