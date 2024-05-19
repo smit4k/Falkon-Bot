@@ -17,7 +17,7 @@ class Crypto(commands.Cog):
         price = await self.get_Crypto_Price(crypto)
 
         cryptoEmbed = discord.Embed(title = f"Price for {crypto.upper()}", color = 0x6B31A5, timestamp = datetime.now())
-        cryptoEmbed.add_field(name = f"{crypto.upper()} - USD", value = price, inline = False)
+        cryptoEmbed.add_field(name = f"{crypto.upper()} → USD", value = price, inline = False)
         cryptoEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = cryptoEmbed)
 
