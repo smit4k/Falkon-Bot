@@ -12,7 +12,7 @@ today = date.today()
 
 load_dotenv()
 
-KEY = os.getenv("polygon_key")
+KEY = os.getenv("alphavantage_key")
 
 tz = timezone('EST')
 datetime.now(tz)
@@ -23,20 +23,30 @@ class Stocks(commands.Cog):
 
     @commands.command()
     async def stockprice(self,ctx,*,ticker):
-        closed_price = await self.get_Day_Close_Price(ticker)
-        stockPriceEmbed = discord.Embed(title = f"TODAY: {ticker.upper()}", color = 0x6B31A5, timestamp = datetime.now())
-        stockPriceEmbed.add_field(name = "Price", value = closed_price, inline = False)
-        stockPriceEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
-        await ctx.send(embed = stockPriceEmbed)
+        openPrice = await self.getCurrentOpenStockPrice(ticker)
+        timeZone = await self.getTimeZone(ticker)
+        stockEmbed = discord.Embed(title = ticker, color = 0x6B31A5, timestamp = datetime.now())
+        stockEmbed.add_field(name = "Time Zone", value = timeZone, inline = False)
+        stockEmbed.add_field(name = "Open Price", value = openPrice, inline = False)
+        stockEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar) 
+        await ctx.send(embed = stockEmbed)
 
-    async def get_Day_Close_Price(self,ticker):
-        response = requests.get(f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{today}/{today}?apiKey={KEY}")
+
+
+    async def getCurrentOpenStockPrice(self, ticker):
+        response = requests.get(f"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={ticker}&interval=5min&apikey={KEY}")
         data = response.json()
-        closed_price = data["results"]["0"]["c"]
-        print(closed_price)
-        return closed_price
+        time_series = data["Time Series (5min)"]
+        latest_timestamp = sorted(time_series.keys(), reverse=True)[0]
+        open_price = time_series[latest_timestamp]["1. open"]
+        return open_price
 
-
+    async def getTimeZone(self, ticker):
+        response = requests.get(f"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={ticker}&interval=5min&apikey={KEY}")
+        data = response.json()
+        timeZone = data["Meta Data"]["6. Time Zone"]
+        return timeZone
+        
 
 
 async def setup(client):
