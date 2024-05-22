@@ -46,7 +46,7 @@ async def whois(ctx, member: discord.Member):
     )
     userInfoEmbed.add_field(name="**ID:**", value=member.id, inline=False)
     userInfoEmbed.add_field(
-        name="**Created At:**", value=member.created_at, inline=False
+        name="**Created At:**", value=str(member.created_at)[0:9], inline=False
     )
 
     userInfoEmbed.add_field(
