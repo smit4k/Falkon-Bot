@@ -53,7 +53,7 @@ class Fun(commands.Cog):
 
         image = Image.new("RGB", (width, height), (red, green, blue))
         image_file = io.BytesIO()
-        image.save(image_file, "JPG")
+        image.save(image_file, "JPEG")
         image_file.seek(0)
 
         file = discord.File(image_file, filename = "randomcolor.png")
