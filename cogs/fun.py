@@ -40,7 +40,7 @@ class Fun(commands.Cog):
         _8ballEmbed.set_footer(text = f'Requested by {ctx.author.name}', icon_url = ctx.author.display_avatar)
         await ctx.send(embed = _8ballEmbed)
 
-    @commands.command(aliases=["randcolors"])
+    @commands.command(aliases=["randcolor"])
     async def randomcolor(self, ctx):
         red = random.randint(0,255)
         green = random.randint(0,255)
