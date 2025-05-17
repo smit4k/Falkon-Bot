@@ -2,7 +2,5 @@
 
 ## Purpose
 Falkon is a general purpose Discord utility bot written in Python. Its simple, and easy to use.
-## About PRs (READ THIS)
-Contributing isn't welcome. This is a personal project, you may enjoy the freedom of this open-source bot.
-## Current plans for Falkon
-Falkon is set to fully release by late 2024.
+## Contributions
+Contributions are welcome! Although I’ve stepped away from active development, the project remains open to the community. Feel free to submit a pull request — I’ll review and merge contributions as they come in.
