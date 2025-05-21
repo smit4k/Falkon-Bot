@@ -111,7 +111,7 @@ class Fun(commands.Cog):
 
     async def getResponse(self):
         file_path = "assets/responses.txt"
-        response = "";
+        response = ""
         try:
             with open(file_path, "r", encoding="utf-8") as file:
                 lines = file.read().splitlines()
