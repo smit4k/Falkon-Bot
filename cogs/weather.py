@@ -113,7 +113,7 @@ class Weather(commands.Cog):
         if epaIndex == 1:
             epaDescription = "Good"
         elif epaIndex == 2:
-            epaDescription =  "Moderate"
+            epaDescription = "Moderate"
         elif epaIndex == 3:
             epaDescription = "Unhealthy for Sensitive Groups"
         elif epaIndex == 4:
@@ -121,7 +121,7 @@ class Weather(commands.Cog):
         elif epaIndex == 5:
             epaDescription = "Very Unhealthy"
         elif epaIndex == 6:
-            epaDescription ="Hazardous"
+            epaDescription = "Hazardous"
         else:
             epaDescription = "Unknown"
         
